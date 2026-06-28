@@ -1,14 +1,272 @@
 @import "tailwindcss";
 
 @theme {
-   /* Notre palette de couleurs Fintech / Cloud */
-  --color-brand-dark: #0B0F19;     /* Fond sombre texturé ou texte ultra-sombre */
-  --color-brand-primary: #2563EB;  /* Bleu Royal (Boutons principaux, actions) */
-  --color-brand-accent: #10B981;   /* Vert émeraude (Succès, jetons valides) */
-  --color-brand-muted: #64748B;    /* Gris pour légendes et textes secondaires */
-  --color-brand-light-bg: #F8FAFC; /* Fond de page ultra-propre */
+  /* Notre palette de couleurs Fintech / Cloud */
+  --color-brand-dark: #0B0F19;
+  --color-brand-primary: #2563EB;
+  --color-brand-accent: #10B981;
+  --color-brand-muted: #64748B;
+  --color-brand-light-bg: #F8FAFC;
 
   /* Typographie et arrondis premium */
   --font-sans: "Inter", "sans-serif";
   --radius-premium: 12px;
+}
+
+/* =========================================================
+   RESET & BASE
+   ========================================================= */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  background-color: var(--color-brand-light-bg);
+  color: var(--color-brand-dark);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* =========================================================
+   LAYOUT AUTH — centre la carte sur la page
+   ========================================================= */
+.auth-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background-color: var(--color-brand-light-bg);
+}
+
+/* =========================================================
+   AUTH CARD
+   ========================================================= */
+.auth-card {
+  width: 100%;
+  max-width: 440px;
+  background: #ffffff;
+  border: 1px solid #E2E8F0;
+  border-radius: var(--radius-premium);
+  padding: 2.5rem 2rem;
+  box-shadow: 0 4px 24px rgba(11, 15, 25, 0.07);
+}
+
+.auth-card__header {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.auth-card__title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--color-brand-dark);
+  letter-spacing: -0.02em;
+  margin-bottom: 0.375rem;
+}
+
+.auth-card__subtitle {
+  font-size: 0.9rem;
+  color: var(--color-brand-muted);
+}
+
+.auth-card__footer {
+  margin-top: 1.5rem;
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--color-brand-muted);
+}
+
+/* =========================================================
+   FORMULAIRE
+   ========================================================= */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.form-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-brand-dark);
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.65rem 0.875rem;
+  font-size: 0.95rem;
+  font-family: "Inter", sans-serif;
+  color: var(--color-brand-dark);
+  background: #F8FAFC;
+  border: 1.5px solid #CBD5E1;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-input::placeholder {
+  color: #94A3B8;
+}
+
+.form-input:focus {
+  border-color: var(--color-brand-primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+  background: #ffffff;
+}
+
+.form-hint-link {
+  align-self: flex-end;
+  font-size: 0.8rem;
+  color: var(--color-brand-primary);
+  text-decoration: none;
+  margin-top: 0.25rem;
+  transition: opacity 0.15s;
+}
+
+.form-hint-link:hover {
+  opacity: 0.75;
+  text-decoration: underline;
+}
+
+/* =========================================================
+   BOUTONS
+   ========================================================= */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.25rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-family: "Inter", sans-serif;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s, opacity 0.2s, transform 0.1s;
+  text-decoration: none;
+}
+
+.btn--primary {
+  background-color: var(--color-brand-primary);
+  color: #ffffff;
+}
+
+.btn--primary:hover:not(:disabled) {
+  background-color: #1D4ED8;
+}
+
+.btn--primary:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.btn--primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn--full {
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+/* =========================================================
+   MESSAGES D'ERREUR
+   ========================================================= */
+.error-list {
+  background-color: #FEF2F2;
+  border: 1px solid #FECACA;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.error-item {
+  font-size: 0.85rem;
+  color: #DC2626;
+  line-height: 1.4;
+}
+
+/* =========================================================
+   MESSAGE DE SUCCÈS
+   ========================================================= */
+.success-box {
+  background-color: #ECFDF5;
+  border: 1px solid #6EE7B7;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  color: #065F46;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+/* =========================================================
+   LIENS
+   ========================================================= */
+.link {
+  color: var(--color-brand-primary);
+  font-weight: 600;
+  text-decoration: none;
+  transition: opacity 0.15s;
+}
+
+.link:hover {
+  opacity: 0.75;
+  text-decoration: underline;
+}
+
+/* =========================================================
+   LOGO HOMECLOUD (optionnel — à placer au-dessus de la card)
+   ========================================================= */
+.auth-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.75rem;
+}
+
+.auth-logo__icon {
+  width: 36px;
+  height: 36px;
+  background-color: var(--color-brand-primary);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-logo__text {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-brand-dark);
+  letter-spacing: -0.01em;
+}
+
+/* =========================================================
+   RESPONSIVE MOBILE
+   ========================================================= */
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 2rem 1.25rem;
+    border: none;
+    box-shadow: none;
+  }
+
+  .auth-card__title {
+    font-size: 1.5rem;
+  }
 }
