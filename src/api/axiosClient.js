@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const instance = axios.create({
-  baseURL: "http://localhost:8080/api/auth",
+  baseURL: "https://proxmox-portal-backend-production.up.railway.app/api/auth",
   headers: { "Content-Type": "application/json" },
 });
 
@@ -22,7 +22,7 @@ instance.interceptors.response.use(
       }
 
       try {
-        const res = await axios.post("http://localhost:8080/api/auth/refresh", {
+        const res = await axios.post("https://proxmox-portal-backend-production.up.railway.app/api/auth/refresh", {
           refreshToken,
         });
         const { accessToken, refreshToken: newRefresh } = res.data;

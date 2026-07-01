@@ -12,7 +12,7 @@ export const login = async (email, password) => {
 
 export const getUserProfile = async () => {
   const token = localStorage.getItem("token");
-  const response = await instance.get("http://localhost:8080/hello", {
+  const response = await instance.get("https://proxmox-portal-backend-production.up.railway.app/hello", {
     headers: { Authorization: `Bearer ${token}` },
   });
   return response.data;
