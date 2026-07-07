@@ -4,12 +4,9 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
+import HomePage from "./pages/HomePage";
+import ConsolePage from "./pages/ConsolePage";
 import ProtectedRoute from "./components/ProtectedRoute";
-
-// Placeholder page d'accueil (à remplacer par le vrai composant)
-function HomePage() {
-  return <div style={{ padding: "2rem" }}>🏠 Tableau de bord HomeCloud</div>;
-}
 
 export default function App() {
   return (
@@ -24,6 +21,7 @@ export default function App() {
         {/* Routes protégées */}
         <Route element={<ProtectedRoute />}>
           <Route path="/home" element={<HomePage />} />
+          <Route path="/console" element={<ConsolePage />} />
         </Route>
 
         {/* Redirection par défaut */}

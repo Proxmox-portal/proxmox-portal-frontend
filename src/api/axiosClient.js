@@ -1,8 +1,21 @@
 import axios from "axios";
 
+// N.B. du guide d'intégration : baseURL sans le segment "/auth".
+// Chaque service (auth, provisioning, ...) précède ses propres routes
+// (ex: "/auth/login" pour l'auth, "/hc/os-templates" pour le provisioning HomeCloud).
 export const instance = axios.create({
-  baseURL: "https://proxmox-portal-backend-production.up.railway.app/api/auth",
+  baseURL: "https://proxmox-portal-backend-production.up.railway.app/api",
   headers: { "Content-Type": "application/json" },
+});
+
+// Intercepteur de requête : ajoute automatiquement le token Bearer
+// (nécessaire pour ProvisionService et toute route protégée)
+instance.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
 });
 
 // Intercepteur de réponse : gestion automatique du refresh token
@@ -22,9 +35,10 @@ instance.interceptors.response.use(
       }
 
       try {
-        const res = await axios.post("https://proxmox-portal-backend-production.up.railway.app/api/auth/refresh", {
-          refreshToken,
-        });
+        const res = await axios.post(
+          "https://proxmox-portal-backend-production.up.railway.app/api/auth/refresh",
+          { refreshToken }
+        );
         const { accessToken, refreshToken: newRefresh } = res.data;
 
         localStorage.setItem("token", accessToken);
