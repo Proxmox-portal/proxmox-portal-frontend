@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useMemo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import Sidebar from "../components/Sidebar";
 import {
   listMyContainers,
   startVm,
@@ -102,17 +103,19 @@ export default function HomePage() {
   }, [containers]);
 
   return (
-    <div className="hc-dashboard">
-      <style>{DASHBOARD_CSS}</style>
+    <div className="hc-app-shell">
+      <Sidebar />
+      <div className="hc-dashboard">
+        <style>{DASHBOARD_CSS}</style>
 
-      <div className="topbar">
-        <div className="topbar-title">Tableau de bord</div>
-        <div className="search-box">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B8C4D8" strokeWidth="2"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" /></svg>
-          <input type="text" placeholder="Rechercher un conteneur..." value={search} onChange={(e) => setSearch(e.target.value)} />
-        </div>
-        <button className="btn-create" onClick={() => navigate("/")}>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5"><path d="M12 5v14M5 12h14" /></svg>
+        <div className="topbar">
+          <div className="topbar-title">Tableau de bord</div>
+          <div className="search-box">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B8C4D8" strokeWidth="2"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" /></svg>
+            <input type="text" placeholder="Rechercher un conteneur..." value={search} onChange={(e) => setSearch(e.target.value)} />
+          </div>
+          <button className="btn-create" onClick={() => navigate("/createvm")}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5"><path d="M12 5v14M5 12h14" /></svg>
           Créer un conteneur
         </button>
       </div>
@@ -210,11 +213,13 @@ export default function HomePage() {
         </div>
       </div>
     </div>
+    </div>
   );
 }
 
 const DASHBOARD_CSS = `
-.hc-dashboard{font-family:'DM Sans',system-ui,sans-serif;color:#0F1B3D;display:flex;flex-direction:column;height:100%}
+.hc-app-shell{display:flex;height:100vh;overflow:hidden;background:#F0F3FA}
+.hc-dashboard{font-family:'DM Sans',system-ui,sans-serif;color:#0F1B3D;display:flex;flex-direction:column;flex:1;min-width:0}
 .hc-dashboard .topbar{background:#fff;border-bottom:1px solid #E8EDF8;padding:0 26px;height:58px;display:flex;align-items:center;gap:14px;flex-shrink:0}
 .hc-dashboard .topbar-title{font-size:16px;font-weight:600;flex:1}
 .hc-dashboard .search-box{display:flex;align-items:center;gap:8px;background:#F3F6FC;border:1px solid #E8EDF8;border-radius:9px;padding:7px 13px;width:220px}

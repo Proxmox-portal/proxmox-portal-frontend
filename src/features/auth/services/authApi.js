@@ -27,9 +27,15 @@ export const resetPassword = async (token, newPassword) => {
 
 export const logout = async () => {
   const refreshToken = localStorage.getItem("refreshToken");
-  if (refreshToken) {
-    await instance.post("/auth/logout", { refreshToken });
+  try {
+    if (refreshToken) {
+      await instance.post("/auth/logout", { refreshToken });
+    }
+  } finally {
+    // Le nettoyage local doit toujours avoir lieu, même si l'appel réseau échoue
+    // (backend indisponible, CORS, token déjà expiré...) — sinon l'utilisateur
+    // reste "connecté" côté frontend sans pouvoir revenir à la WelcomePage.
+    localStorage.removeItem("token");
+    localStorage.removeItem("refreshToken");
   }
-  localStorage.removeItem("token");
-  localStorage.removeItem("refreshToken");
 };
