@@ -88,7 +88,7 @@ export default function CreateVmPage() {
         <style>{CVM_CSS}</style>
 
         <div className="cvm-topbar">
-          <div className="cvm-topbar-title">Créer un conteneur</div>
+          <div className="cvm-topbar-title">Créer une machine</div>
           <Link to="/home" className="cvm-cancel">Annuler</Link>
         </div>
 
@@ -113,7 +113,7 @@ export default function CreateVmPage() {
           {step === 1 && (
             <div className="form-card">
               <div className="form-card-title">Offre et système d'exploitation</div>
-              <div className="form-card-sub">La catégorie détermine les ressources allouées au conteneur.</div>
+              <div className="form-card-sub">La catégorie détermine les ressources allouées a la machine.</div>
 
               <div className="form-row single" style={{ marginBottom: 20 }}>
                 <div className="cat-row">

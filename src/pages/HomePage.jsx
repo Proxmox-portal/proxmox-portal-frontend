@@ -13,7 +13,9 @@ import {
 const STATUS_META = {
   running: { label: "Running", color: "#22C55E", pillBg: "#DCFCE7", pillFg: "#16A34A" },
   stopped: { label: "Stopped", color: "#EF4444", pillBg: "#FEE2E2", pillFg: "#DC2626" },
-  creating: { label: "Extraction…", color: "#2D5BE3", pillBg: "#EEF3FF", pillFg: "#2D5BE3" },
+  starting: { label: "Starting…", color: "#2D5BE3", pillBg: "#EEF3FF", pillFg: "#2D5BE3" },
+
+
 };
 
 function formatDate(iso) {
@@ -116,7 +118,7 @@ export default function HomePage() {
           </div>
           <button className="btn-create" onClick={() => navigate("/createvm")}>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5"><path d="M12 5v14M5 12h14" /></svg>
-          Créer un conteneur
+          Créer une machine
         </button>
       </div>
 
@@ -125,12 +127,12 @@ export default function HomePage() {
 
         <div className="stats-row">
           <div className="stat-card green">
-            <div className="stat-label">Conteneurs actifs</div>
+            <div className="stat-label">Machines actives</div>
             <div className="stat-val">{counts.running}</div>
             <div className="stat-sub">Running</div>
           </div>
           <div className="stat-card red">
-            <div className="stat-label">Conteneurs arrêtés</div>
+            <div className="stat-label">Machines arrêtées</div>
             <div className="stat-val">{counts.stopped}</div>
             <div className="stat-sub">Stopped</div>
           </div>
@@ -147,7 +149,7 @@ export default function HomePage() {
         </div>
 
         <div className="section-header">
-          <div className="section-title">Mes conteneurs</div>
+          <div className="section-title">Mes machines</div>
           <div className="section-actions">
             <button className={`filter-btn ${statusFilter === "all" ? "active" : ""}`} onClick={() => setStatusFilter("all")}>Tous ({counts.all})</button>
             <button className={`filter-btn ${statusFilter === "running" ? "active" : ""}`} onClick={() => setStatusFilter("running")}>Running ({counts.running || 0})</button>
