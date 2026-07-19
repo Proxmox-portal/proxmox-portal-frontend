@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import NetworkBackground from "../components/Networkbackground";
 
 // Les 3 offres HomeCloud — la "category" doit correspondre exactement aux
 // valeurs attendues par le backend dans CreateLxcRequest.category ("basic"|"mid"|"elite")
@@ -53,6 +54,7 @@ export default function WelcomePage() {
   return (
     <div className="welcome-page">
       <style>{WELCOME_CSS}</style>
+      <NetworkBackground />
 
       <header className="wp-header">
         <div className="wp-logo">

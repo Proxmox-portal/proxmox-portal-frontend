@@ -69,8 +69,12 @@ export default function HomePage() {
 
   const handleConsole = async (container) => {
     try {
-      const { url } = await getVmConsole(container.id);
-      navigate("/console", { state: { consoleUrl: url, vmName: container.name } });
+      // Pré-vol : vérifie que le conteneur est bien "running" et qu'un ticket VNC
+      // peut être généré côté Proxmox (getConsole lève une erreur sinon).
+      // La connexion réelle à la console se fait ensuite via WebSocket dans
+      // ConsolePage, qui redemande son propre ticket au backend (ProxmoxConsoleHandler).
+      await getVmConsole(container.id);
+      navigate("/console", { state: { vmId: container.id, vmName: container.name } });
     } catch (e) {
       alert("Impossible d'ouvrir la console. Le conteneur est peut-être encore en cours de démarrage.");
     }
@@ -265,4 +269,36 @@ const DASHBOARD_CSS = `
 .hc-dashboard .act.danger:hover{background:#FEE2E2;border-color:#FDCECE}
 .hc-dashboard .act.danger:hover svg{stroke:#DC2626}
 .hc-dashboard .act:disabled{opacity:.4;cursor:not-allowed}
+
+/* ===== Responsive (n'affecte pas le desktop, ajoute seulement des ajustements) ===== */
+@media (max-width: 1100px){
+  .hc-dashboard .stats-row{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width: 900px){
+  .hc-dashboard .topbar{flex-wrap:wrap;height:auto;min-height:58px;padding:12px 16px;row-gap:10px}
+  .hc-dashboard .topbar-title{width:100%;order:1}
+  .hc-dashboard .search-box{width:100%;order:3}
+  .hc-dashboard .btn-create{order:2;margin-left:auto}
+}
+@media (max-width: 820px){
+  .hc-app-shell{flex-direction:column;height:auto;min-height:100vh;overflow:visible}
+  .hc-dashboard{min-height:100vh}
+  .hc-dashboard .content{padding:18px}
+  .hc-dashboard .vm-table{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .hc-dashboard .table-head,
+  .hc-dashboard .table-row{grid-template-columns:1.6fr 1fr .8fr .9fr .8fr 1.1fr 1.3fr 110px;min-width:880px}
+}
+@media (max-width: 640px){
+  .hc-dashboard .stats-row{grid-template-columns:1fr 1fr;gap:10px}
+  .hc-dashboard .stat-card{padding:14px 16px}
+  .hc-dashboard .stat-val{font-size:22px}
+}
+@media (max-width: 480px){
+  .hc-dashboard .content{padding:14px}
+  .hc-dashboard .stats-row{grid-template-columns:1fr}
+  .hc-dashboard .btn-create{padding:9px 12px;font-size:12px}
+  .hc-dashboard .btn-create svg{display:none}
+  .hc-dashboard .section-header{flex-wrap:wrap;gap:10px}
+  .hc-dashboard .section-actions{width:100%;overflow-x:auto}
+}
 `;

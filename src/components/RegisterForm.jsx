@@ -115,7 +115,7 @@ export default function RegisterForm({ onLogin }) {
     <form onSubmit={handleSubmit} noValidate className="screen-enter">
       <div className="form-header">
         <h1>Créer un compte</h1>
-        <p>Rejoignez ProxPortal et gérez vos VMs</p>
+        <p>Rejoignez HomeCloud et gérez vos VMs</p>
       </div>
 
       {apiError && (

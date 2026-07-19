@@ -213,6 +213,11 @@
 /* ── Screen transitions ── */
 .screen-enter {
   animation: screenIn 0.25s ease both;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: var(--radius-xl);
+  padding: 32px;
+  position: relative;
+  z-index: 1;
 }
 
 @keyframes screenIn {

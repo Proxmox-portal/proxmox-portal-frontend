@@ -61,7 +61,7 @@ export default function LoginForm({ onTOTP, onRegister, onForgot }) {
       {/* Header */}
       <div className="form-header">
         <h1>Bon retour 👋</h1>
-        <p>Connectez-vous à votre espace ProxPortal</p>
+        <p>Connectez-vous à votre espace HomeCloud</p>
       </div>
 
       {/* Step indicator */}

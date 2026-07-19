@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { logout } from "../features/auth/services/authApi";
 
@@ -23,8 +23,10 @@ const ACCOUNT_ITEMS = [
 export default function Sidebar() {
   const navigate = useNavigate();
   const location = useLocation();
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleLogout = async () => {
+    setMobileOpen(false);
     try {
       await logout();
     } catch (e) {
@@ -42,7 +44,11 @@ export default function Sidebar() {
       <div
         key={item.key}
         className={`sb-nav-item ${active ? "active" : ""} ${!item.enabled ? "disabled" : ""}`}
-        onClick={() => item.enabled && navigate(item.path)}
+        onClick={() => {
+          if (!item.enabled) return;
+          navigate(item.path);
+          setMobileOpen(false);
+        }}
       >
         {item.icon}
         {item.label}
@@ -52,34 +58,53 @@ export default function Sidebar() {
   };
 
   return (
-    <div className="sb-sidebar">
+    <>
       <style>{SIDEBAR_CSS}</style>
-      <div className="sb-logo-area">
-        <div className="sb-logo-box">
-          <div className="sb-logo-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" /></svg>
+
+      {/* Bouton hamburger — visible uniquement en dessous de 820px (voir media query) */}
+      <button
+        className="sb-mobile-toggle"
+        onClick={() => setMobileOpen((o) => !o)}
+        aria-label="Ouvrir le menu"
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <line x1="3" y1="12" x2="21" y2="12" />
+          <line x1="3" y1="18" x2="21" y2="18" />
+        </svg>
+      </button>
+
+      {/* Overlay derrière le tiroir mobile ouvert */}
+      <div className={`sb-overlay ${mobileOpen ? "show" : ""}`} onClick={() => setMobileOpen(false)} />
+
+      <div className={`sb-sidebar ${mobileOpen ? "open" : ""}`}>
+        <div className="sb-logo-area">
+          <div className="sb-logo-box">
+            <div className="sb-logo-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" /></svg>
+            </div>
+            <div>
+              <div className="sb-logo-text">HomeCloud</div>
+              <div className="sb-logo-sub">VE Management</div>
+            </div>
           </div>
-          <div>
-            <div className="sb-logo-text">HomeCloud</div>
-            <div className="sb-logo-sub">VE Management</div>
+        </div>
+
+        <div className="sb-nav-section">Principal</div>
+        {NAV_ITEMS.map(renderItem)}
+
+        <div className="sb-nav-section">Compte</div>
+        {ACCOUNT_ITEMS.map(renderItem)}
+
+        <div className="sb-sidebar-footer">
+          <div className="sb-avatar">U</div>
+          <div className="sb-user-info">
+            <div className="sb-user-name">Mon compte</div>
+            <button className="sb-logout-btn" onClick={handleLogout}>Se déconnecter</button>
           </div>
         </div>
       </div>
-
-      <div className="sb-nav-section">Principal</div>
-      {NAV_ITEMS.map(renderItem)}
-
-      <div className="sb-nav-section">Compte</div>
-      {ACCOUNT_ITEMS.map(renderItem)}
-
-      <div className="sb-sidebar-footer">
-        <div className="sb-avatar">U</div>
-        <div className="sb-user-info">
-          <div className="sb-user-name">Mon compte</div>
-          <button className="sb-logout-btn" onClick={handleLogout}>Se déconnecter</button>
-        </div>
-      </div>
-    </div>
+    </>
   );
 }
 
@@ -102,4 +127,16 @@ const SIDEBAR_CSS = `
 .sb-user-name{font-size:12.5px;font-weight:500;color:#0F1B3D}
 .sb-logout-btn{background:none;border:none;padding:0;font-size:11.5px;color:#DC2626;cursor:pointer;text-align:left}
 .sb-logout-btn:hover{text-decoration:underline}
+
+/* ===== Menu mobile (tiroir coulissant) — inactif au-dessus de 820px ===== */
+.sb-mobile-toggle{display:none;position:fixed;top:12px;left:14px;z-index:1001;width:38px;height:38px;border-radius:9px;background:#2D5BE3;border:none;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 10px rgba(45,91,227,.3)}
+.sb-mobile-toggle svg{width:18px;height:18px;stroke:#fff}
+.sb-overlay{display:none}
+@media (max-width: 820px){
+  .sb-mobile-toggle{display:flex}
+  .sb-sidebar{position:fixed;top:0;left:0;height:100vh;z-index:1000;transform:translateX(-100%);transition:transform .25s ease;box-shadow:2px 0 20px rgba(15,27,61,.18)}
+  .sb-sidebar.open{transform:translateX(0)}
+  .sb-overlay{display:block;position:fixed;inset:0;background:rgba(15,27,61,0);pointer-events:none;z-index:999;transition:background .25s ease}
+  .sb-overlay.show{background:rgba(15,27,61,.35);pointer-events:auto}
+}
 `;

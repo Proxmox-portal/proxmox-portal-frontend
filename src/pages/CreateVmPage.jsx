@@ -93,122 +93,122 @@ export default function CreateVmPage() {
         </div>
 
         <div className="cvm-content">
-        <div className="wizard-area">
-          <div className="steps-nav">
-            {STEPS.map((label, i) => {
-              const n = i + 1;
-              const state = n < step ? "done" : n === step ? "active" : "todo";
-              return (
-                <React.Fragment key={label}>
-                  <div className={`step ${state}`} onClick={() => goToStep(n)}>
-                    <div className="step-circle">{state === "done" ? "✓" : n}</div>
-                    <div className="step-text">{label}</div>
+          <div className="wizard-area">
+            <div className="steps-nav">
+              {STEPS.map((label, i) => {
+                const n = i + 1;
+                const state = n < step ? "done" : n === step ? "active" : "todo";
+                return (
+                  <React.Fragment key={label}>
+                    <div className={`step ${state}`} onClick={() => goToStep(n)}>
+                      <div className="step-circle">{state === "done" ? "✓" : n}</div>
+                      <div className="step-text">{label}</div>
+                    </div>
+                    {n < STEPS.length && <div className={`step-connector ${n < step ? "done" : ""}`} />}
+                  </React.Fragment>
+                );
+              })}
+            </div>
+
+            {step === 1 && (
+              <div className="form-card">
+                <div className="form-card-title">Offre et système d'exploitation</div>
+                <div className="form-card-sub">La catégorie détermine les ressources allouées a la machine.</div>
+
+                <div className="form-row single" style={{ marginBottom: 20 }}>
+                  <div className="cat-row">
+                    {Object.entries(CATEGORY_LABELS).map(([key, label]) => (
+                      <div key={key} className={`cat-btn ${category === key ? "selected" : ""}`} onClick={() => setCategory(key)}>
+                        {label}
+                      </div>
+                    ))}
                   </div>
-                  {n < STEPS.length && <div className={`step-connector ${n < step ? "done" : ""}`} />}
-                </React.Fragment>
-              );
-            })}
-          </div>
+                </div>
 
-          {step === 1 && (
-            <div className="form-card">
-              <div className="form-card-title">Offre et système d'exploitation</div>
-              <div className="form-card-sub">La catégorie détermine les ressources allouées a la machine.</div>
-
-              <div className="form-row single" style={{ marginBottom: 20 }}>
-                <div className="cat-row">
-                  {Object.entries(CATEGORY_LABELS).map(([key, label]) => (
-                    <div key={key} className={`cat-btn ${category === key ? "selected" : ""}`} onClick={() => setCategory(key)}>
-                      {label}
+                {osError && <div className="cvm-error-banner">{osError}</div>}
+                {!osError && osList === null && <div className="hint">Chargement des OS disponibles…</div>}
+                {!osError && osList !== null && filteredOs.length === 0 && (
+                  <div className="hint">Aucun OS disponible pour cette offre pour le moment.</div>
+                )}
+                <div className="iso-grid">
+                  {filteredOs.map((os) => (
+                    <div key={os.lxId} className={`iso-card ${templateId === os.lxId ? "selected" : ""}`} onClick={() => setTemplateId(os.lxId)}>
+                      <img
+                        src={`/logos/${os.osType}.svg`}
+                        alt={os.displayName}
+                        className="iso-icon-img"
+                        onError={(e) => { e.target.src = "/logos/linux.svg"; }}
+                      />
+                      <div><div className="iso-name">{os.displayName}</div></div>
+                      <div className="check-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3"><polyline points="20,6 9,17 4,12" /></svg></div>
                     </div>
                   ))}
                 </div>
               </div>
+            )}
 
-              {osError && <div className="cvm-error-banner">{osError}</div>}
-              {!osError && osList === null && <div className="hint">Chargement des OS disponibles…</div>}
-              {!osError && osList !== null && filteredOs.length === 0 && (
-                <div className="hint">Aucun OS disponible pour cette offre pour le moment.</div>
-              )}
-              <div className="iso-grid">
-                {filteredOs.map((os) => (
-                  <div key={os.lxId} className={`iso-card ${templateId === os.lxId ? "selected" : ""}`} onClick={() => setTemplateId(os.lxId)}>
-                    <img
-                      src={`/logos/${os.osType}.svg`}
-                      alt={os.displayName}
-                      className="iso-icon-img"
-                      onError={(e) => { e.target.src = "/logos/linux.svg"; }}
-                    />
-                    <div><div className="iso-name">{os.displayName}</div></div>
-                    <div className="check-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3"><polyline points="20,6 9,17 4,12" /></svg></div>
+            {step === 2 && (
+              <div className="form-card">
+                <div className="form-card-title">Configuration du conteneur</div>
+                <div className="form-card-sub">Définissez le nom d'hôte et le mot de passe root.</div>
+                <div className="form-row single">
+                  <div className="form-group">
+                    <label>Nom d'hôte</label>
+                    <input type="text" placeholder="mon-serveur-db" value={hostname} onChange={(e) => setHostname(e.target.value)} />
+                    <div className="hint">Lettres, chiffres et tirets uniquement.</div>
                   </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {step === 2 && (
-            <div className="form-card">
-              <div className="form-card-title">Configuration du conteneur</div>
-              <div className="form-card-sub">Définissez le nom d'hôte et le mot de passe root.</div>
-              <div className="form-row single">
-                <div className="form-group">
-                  <label>Nom d'hôte</label>
-                  <input type="text" placeholder="mon-serveur-db" value={hostname} onChange={(e) => setHostname(e.target.value)} />
-                  <div className="hint">Lettres, chiffres et tirets uniquement.</div>
+                </div>
+                <div className="form-row">
+                  <div className="form-group">
+                    <label>Mot de passe root</label>
+                    <input type="password" placeholder="••••••••" value={password} onChange={(e) => setPassword(e.target.value)} />
+                  </div>
+                  <div className="form-group">
+                    <label>Confirmer le mot de passe</label>
+                    <input type="password" placeholder="••••••••" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+                  </div>
                 </div>
               </div>
-              <div className="form-row">
-                <div className="form-group">
-                  <label>Mot de passe root</label>
-                  <input type="password" placeholder="••••••••" value={password} onChange={(e) => setPassword(e.target.value)} />
+            )}
+
+            {step === 3 && (
+              <div className="form-card">
+                <div className="form-card-title">Récapitulatif et confirmation</div>
+                <div className="form-card-sub">Vérifiez la configuration avant de créer le conteneur.</div>
+                <div className="summary-grid">
+                  <div className="summary-item"><div className="sum-label">Offre</div><div className="sum-val">{CATEGORY_LABELS[category]}</div></div>
+                  <div className="summary-item"><div className="sum-label">Système d'exploitation</div><div className="sum-val">{selectedOs?.displayName || "—"}</div></div>
+                  <div className="summary-item"><div className="sum-label">Nom d'hôte</div><div className="sum-val">{hostname}</div></div>
+                  <div className="summary-item"><div className="sum-label">Mot de passe</div><div className="sum-val">••••••••</div></div>
                 </div>
-                <div className="form-group">
-                  <label>Confirmer le mot de passe</label>
-                  <input type="password" placeholder="••••••••" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+                <div className="info-box">
+                  <strong>ℹ Le conteneur sera créé en tâche de fond.</strong> Le statut passera de "creating" à "running" une fois l'extraction du template terminée.
                 </div>
               </div>
-            </div>
-          )}
+            )}
 
-          {step === 3 && (
-            <div className="form-card">
-              <div className="form-card-title">Récapitulatif et confirmation</div>
-              <div className="form-card-sub">Vérifiez la configuration avant de créer le conteneur.</div>
-              <div className="summary-grid">
-                <div className="summary-item"><div className="sum-label">Offre</div><div className="sum-val">{CATEGORY_LABELS[category]}</div></div>
-                <div className="summary-item"><div className="sum-label">Système d'exploitation</div><div className="sum-val">{selectedOs?.displayName || "—"}</div></div>
-                <div className="summary-item"><div className="sum-label">Nom d'hôte</div><div className="sum-val">{hostname}</div></div>
-                <div className="summary-item"><div className="sum-label">Mot de passe</div><div className="sum-val">••••••••</div></div>
+            {errors.length > 0 && (
+              <div className="cvm-error-banner">
+                {errors.map((msg, i) => <div key={i}>{msg}</div>)}
               </div>
-              <div className="info-box">
-                <strong>ℹ Le conteneur sera créé en tâche de fond.</strong> Le statut passera de "creating" à "running" une fois l'extraction du template terminée.
-              </div>
-            </div>
-          )}
+            )}
 
-          {errors.length > 0 && (
-            <div className="cvm-error-banner">
-              {errors.map((msg, i) => <div key={i}>{msg}</div>)}
+            <div className="wizard-actions">
+              {step > 1 && <button className="btn-back" onClick={goBack}>← Retour</button>}
+              <button className="btn-next" onClick={goNext} disabled={submitting}>
+                {submitting ? "Création en cours…" : step === 3 ? "✓ Créer le conteneur" : "Suivant →"}
+              </button>
             </div>
-          )}
-
-          <div className="wizard-actions">
-            {step > 1 && <button className="btn-back" onClick={goBack}>← Retour</button>}
-            <button className="btn-next" onClick={goNext} disabled={submitting}>
-              {submitting ? "Création en cours…" : step === 3 ? "✓ Créer le conteneur" : "Suivant →"}
-            </button>
           </div>
-        </div>
 
-        <div className="side-summary">
-          <div className="sum-card">
-            <div className="sum-title">Résumé</div>
-            <div className="sum-row"><span className="sum-key">Offre</span><span className="sum-val-side">{CATEGORY_LABELS[category]}</span></div>
-            <div className="sum-row"><span className="sum-key">OS</span><span className="sum-val-side">{selectedOs?.displayName || "—"}</span></div>
-            <div className="sum-row"><span className="sum-key">Hostname</span><span className="sum-val-side">{hostname || "—"}</span></div>
+          <div className="side-summary">
+            <div className="sum-card">
+              <div className="sum-title">Résumé</div>
+              <div className="sum-row"><span className="sum-key">Offre</span><span className="sum-val-side">{CATEGORY_LABELS[category]}</span></div>
+              <div className="sum-row"><span className="sum-key">OS</span><span className="sum-val-side">{selectedOs?.displayName || "—"}</span></div>
+              <div className="sum-row"><span className="sum-key">Hostname</span><span className="sum-val-side">{hostname || "—"}</span></div>
+            </div>
           </div>
-        </div>
         </div>
       </div>
     </div>
@@ -282,4 +282,29 @@ const CVM_CSS = `
 .sum-key{font-size:12.5px;color:#9AAAC0}
 .sum-val-side{font-size:12.5px;font-weight:500;font-family:'DM Mono',monospace;text-align:right}
 @media (max-width:760px){.cvm-content{flex-direction:column}.side-summary{width:100%}}
+
+/* ===== Responsive additionnel (n'affecte pas le desktop) ===== */
+@media (max-width: 820px){
+  .cvm-shell{flex-direction:column;height:auto;min-height:100vh;overflow:visible}
+  .cvm-page{overflow-y:visible}
+  .cvm-content{padding:22px 18px 60px;gap:18px}
+  .form-card{padding:20px}
+  .iso-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width: 640px){
+  .cvm-topbar{padding:0 16px 0 60px}
+  .form-row{grid-template-columns:1fr}
+  .cat-row{flex-direction:column}
+  .summary-grid{grid-template-columns:1fr}
+  .steps-nav{overflow-x:auto;justify-content:flex-start;padding-bottom:4px}
+  .step-text{display:none}
+  .step-connector{min-width:24px}
+}
+@media (max-width: 480px){
+  .cvm-content{padding:16px 14px 50px}
+  .form-card{padding:16px}
+  .iso-grid{grid-template-columns:1fr}
+  .wizard-actions{flex-direction:column-reverse}
+  .btn-back,.btn-next{width:100%;text-align:center}
+}
 `;

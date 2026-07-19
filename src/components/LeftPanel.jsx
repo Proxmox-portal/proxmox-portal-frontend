@@ -22,7 +22,7 @@ export default function LeftPanel() {
           </svg>
         </div>
         <div>
-          <div className="brand-name">ProxPortal</div>
+          <div className="brand-name">HomeCloud</div>
           <div className="brand-sub">Proxmox VE Management</div>
         </div>
       </div>
@@ -48,7 +48,7 @@ export default function LeftPanel() {
 
       {/* Footer */}
       <div className="left-footer">
-        © 2026 ProxPortal — Portail académique Proxmox VE
+        © 2026 HomeCloud — Portail académique Proxmox VE
       </div>
     </div>
   );
