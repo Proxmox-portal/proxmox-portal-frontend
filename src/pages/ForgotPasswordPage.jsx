@@ -1,12 +1,5 @@
-// src/pages/ResetPasswordPage.jsx
+// src/pages/ForgotPasswordPage.jsx
 import ForgotPasswordForm from "../features/auth/components/ForgotPasswordForm";
-import NetworkBackground from "../components/Networkbackground";
-
 export default function ForgotPasswordPage() {
-  return (
-    <div className="auth-layout">
-      <NetworkBackground intensity={0.25} />
-      <ForgotPasswordForm />
-    </div>
-  );
+  return <div className="auth-layout"><ForgotPasswordForm /></div>;
 }

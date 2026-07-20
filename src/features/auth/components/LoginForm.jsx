@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, useLocation, Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { login } from "../services/authApi";
 import { parseApiErrors } from "../services/errorParser";
 
@@ -9,7 +9,6 @@ export default function LoginForm() {
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const location = useLocation();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -26,17 +25,8 @@ export default function LoginForm() {
       const data = await login(email, password);
       localStorage.setItem("token", data.accessToken);
       localStorage.setItem("refreshToken", data.refreshToken);
-
-      // Cinématique de redirection gardée : si l'utilisateur venait d'une
-      // page protégée (ex: /createvm après avoir choisi une offre), on l'y
-      // renvoie avec les données déjà saisies. Sinon, dashboard par défaut.
-      const from = location.state?.from;
-      const data_ = location.state?.data;
-      if (from) {
-        navigate(from, { state: data_ });
-      } else {
-        navigate("/home");
-      }
+      localStorage.setItem("role", data.role);
+      navigate("/home");
     } catch (err) {
       setErrors(parseApiErrors(err));
     } finally {

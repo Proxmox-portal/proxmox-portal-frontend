@@ -9,7 +9,8 @@ import HomePage from "./pages/HomePage";
 import CreateVmPage from "./pages/CreateVmPage";
 import ConsolePage from "./pages/ConsolePage";
 import ProtectedRoute from "./components/ProtectedRoute";
-
+import ProfilePage from "./pages/ProfilePage";
+import AdminRoute from "./components/AdminRoute";
 export default function App() {
   return (
     <BrowserRouter>
@@ -23,6 +24,11 @@ export default function App() {
 
         {/* Routes protégées */}
         <Route element={<ProtectedRoute />}>
+        <Route path="/profile" element={<ProfilePage />} />
+
+        <Route element={<AdminRoute />}>
+          <Route path="/admin" element={<div style={{ padding: "2rem" }}>👑 Espace administrateur</div>} />
+        </Route>
           <Route path="/home" element={<HomePage />} />
           <Route path="/createvm" element={<CreateVmPage />} />
           <Route path="/console" element={<ConsolePage />} />
