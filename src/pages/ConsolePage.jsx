@@ -4,7 +4,7 @@ import RFB from "@novnc/novnc";
 
 // Doit correspondre au host:port du backend Spring Boot (sans /api, car
 // WebSocketConfig enregistre le handler à la racine : /ws/console/{id}).
-const WS_BASE_URL = "wss://proxmox-portal-backend-production.up.railway.app";
+const WS_BASE_URL = "ws://localhost:8080";
 
 export default function ConsolePage() {
   const { state } = useLocation();

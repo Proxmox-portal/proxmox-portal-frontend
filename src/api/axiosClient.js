@@ -5,7 +5,7 @@ import axios from "axios";
 // (ex: "/auth/login" pour l'auth, "/hc/os-templates" pour le provisioning HomeCloud).
 export const instance = axios.create({
   // baseURL: "https://proxmox-portal-backend-production.up.railway.app/api",
-  baseURL: "https://proxmox-portal-backend-production.up.railway.app/api",
+  baseURL: "http://localhost:8080/api",
   
   headers: { "Content-Type": "application/json" },
 });
@@ -38,7 +38,7 @@ instance.interceptors.response.use(
 
       try {
         const res = await axios.post(
-          "https://proxmox-portal-backend-production.up.railway.app/api/auth/refresh",
+          "http://localhost:8080/api/auth/refresh",
           { refreshToken }
         );
         const { accessToken, refreshToken: newRefresh } = res.data;
