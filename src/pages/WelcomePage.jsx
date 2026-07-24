@@ -66,7 +66,7 @@ export default function WelcomePage() {
 
       <section className="wp-hero">
         <span className="wp-eyebrow">Offres</span>
-        <h1>Des conteneurs prêts à l'emploi</h1>
+        <h1>Des machines virtuelles prêtes à l'emploi</h1>
         <p>Choisissez le profil de ressources adapté à votre projet.</p>
       </section>
 
