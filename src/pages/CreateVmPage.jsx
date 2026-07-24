@@ -149,7 +149,7 @@ export default function CreateVmPage() {
 
             {step === 2 && (
               <div className="form-card">
-                <div className="form-card-title">Configuration du conteneur</div>
+                <div className="form-card-title">Configuration de la vm</div>
                 <div className="form-card-sub">Définissez le nom d'hôte et le mot de passe root.</div>
                 <div className="form-row single">
                   <div className="form-group">
@@ -174,7 +174,7 @@ export default function CreateVmPage() {
             {step === 3 && (
               <div className="form-card">
                 <div className="form-card-title">Récapitulatif et confirmation</div>
-                <div className="form-card-sub">Vérifiez la configuration avant de créer le conteneur.</div>
+                <div className="form-card-sub">Vérifiez la configuration avant de créer la machine.</div>
                 <div className="summary-grid">
                   <div className="summary-item"><div className="sum-label">Offre</div><div className="sum-val">{CATEGORY_LABELS[category]}</div></div>
                   <div className="summary-item"><div className="sum-label">Système d'exploitation</div><div className="sum-val">{selectedOs?.displayName || "—"}</div></div>
@@ -196,7 +196,7 @@ export default function CreateVmPage() {
             <div className="wizard-actions">
               {step > 1 && <button className="btn-back" onClick={goBack}>← Retour</button>}
               <button className="btn-next" onClick={goNext} disabled={submitting}>
-                {submitting ? "Création en cours…" : step === 3 ? "✓ Créer le conteneur" : "Suivant →"}
+                {submitting ? "Création en cours…" : step === 3 ? "✓ Créer la machine" : "Suivant →"}
               </button>
             </div>
           </div>

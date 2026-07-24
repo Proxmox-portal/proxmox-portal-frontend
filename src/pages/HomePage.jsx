@@ -169,7 +169,7 @@ export default function HomePage() {
           {containers === null && <div className="table-empty">Chargement…</div>}
 
           {containers !== null && filtered.length === 0 && (
-            <div className="table-empty">Aucun conteneur ne correspond à cette recherche.</div>
+            <div className="table-empty">Aucune vm ne correspond à cette recherche.</div>
           )}
 
           {filtered.map((c) => {

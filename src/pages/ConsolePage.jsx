@@ -69,7 +69,7 @@ export default function ConsolePage() {
         setStatus("error");
         setErrorMsg(
           evt.reason ||
-            "Connexion refusée par le serveur. Le conteneur est peut-être arrêté ou votre session a expiré."
+            "Connexion refusée par le serveur. La vm est peut-être arrêté ou votre session a expiré."
         );
       }
     };
