@@ -4,7 +4,7 @@ import RFB from "@novnc/novnc";
 
 // Doit correspondre au host:port du backend Spring Boot (sans /api, car
 // WebSocketConfig enregistre le handler à la racine : /ws/console/{id}).
-const WS_BASE_URL = "wss://https://proxmox-portal-backend-production.up.railway.app";
+const WS_BASE_URL = "wss://proxmox-portal-frontend.vercel.app";
 
 export default function ConsolePage() {
   const { state } = useLocation();
@@ -69,7 +69,7 @@ export default function ConsolePage() {
         setStatus("error");
         setErrorMsg(
           evt.reason ||
-            "Connexion refusée par le serveur. La vm est peut-être arrêté ou votre session a expiré."
+            "Connexion refusée par le serveur. La machine est peut-être arrêté ou votre session a expiré."
         );
       }
     };
