@@ -5,7 +5,7 @@ import axios, { AxiosHeaders } from "axios";
 
 
 const apiClient  = axios.create({
-  baseURL: "http://localhost:8080/api",
+  baseURL: "https://proxmox-portal-backend-production.up.railway.app/api",
   headers: { "Content-Type": "application/json" },
 });
 
